@@ -38,9 +38,9 @@ class PokemonTest extends FreeSpec with Matchers with Inspectors {
           Some(Pokemon(120, 8, Caract(100, 20, 4), Especie(Agua, Some(Pelea))))
       }
 
-      "debería perder energia si carga más de lo que puede" in {
+      "debería perder energia y quedar paralizado si carga más de lo que puede" in {
         pesas(201)(Pokemon(100, 80, Caract(100, 20, 4), Especie(Agua, None))) shouldEqual
-          Some(Pokemon(100, 70, Caract(100, 20, 4), Especie(Agua, None)))
+          Some(Pokemon(100, 70, Caract(100, 20, 4), Especie(Agua, None), Paralizado))
       }
 
       "no debería poder si es fantasma" in {

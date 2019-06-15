@@ -12,7 +12,10 @@ object Gimnacio {
       Some(p.copy(estado = Dormido(actIgnoradas + 1)))
     case p@Pokemon(_, _, _, _, Dormido(actIgnoradas)) =>
       Some(p.copy(estado = OK))
+    case p => Some(p)
   }
+
+  def withPre(actividad: Actividad) = seqActividades(preAll, actividad)
 
   val preDescansar: Actividad = {
     case p@Pokemon(_, energia, Caract(energiaMax, _, _), _, OK)
@@ -29,7 +32,7 @@ object Gimnacio {
 
   val descansar: Actividad = seqActividades(preAll, preDescansar, afterDescansar)
 
-  def pesas(kilos: Int): Actividad = {
+  def pesas(kilos: Int): Actividad = withPre {
     case Pokemon(_, _, _, Especie(Fantasma, _), _) => None
     case p@Pokemon(_, _, _, _, Paralizado) =>
       Some(p.copy(
@@ -49,7 +52,7 @@ object Gimnacio {
     ))
   }
 
-  def nadar(minutos: Int): Actividad = {
+  def nadar(minutos: Int): Actividad = withPre {
     case p@Pokemon(_, _, _, Especie(Roca | Tierra | Fuego, _) |
                             Especie(_, Some(Roca | Tierra | Fuego)), _) =>
       Some(p.copy(
