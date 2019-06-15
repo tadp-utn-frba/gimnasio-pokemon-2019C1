@@ -1,14 +1,21 @@
 package tadp
 
-import org.scalatest.{FreeSpec, Matchers}
+import org.scalatest.{FreeSpec, Inspectors, Matchers}
 import tadp.Gimnacio._
 
-class PokemonTest extends FreeSpec with Matchers {
+class PokemonTest extends FreeSpec with Matchers with Inspectors {
 
   "Un Pokemon" - {
-    "debería recuperar la energia maxima al descansar" in {
-      descansar(Pokemon(100, 8, Caract(100, 20, 4), Charizard)) shouldEqual
-        Some(Pokemon(100, 100, Caract(100, 20, 4), Charizard))
+
+    "al descansar" - {
+      "debería recuperar la energia maxima" in {
+        descansar(Pokemon(100, 50, Caract(100, 20, 4), Charizard)) shouldEqual
+          Some(Pokemon(100, 100, Caract(100, 20, 4), Charizard))
+      }
+      "se duerme si la energia es menor a la mitad" in {
+        descansar(Pokemon(100, 49, Caract(100, 20, 4), Charizard)) shouldEqual
+          Some(Pokemon(100, 100, Caract(100, 20, 4), Charizard, Dormido()))
+      }
     }
 
     "al levantar pesas" - {
@@ -50,6 +57,13 @@ class PokemonTest extends FreeSpec with Matchers {
       "los de agua ganan velocidad" in {
         nadar(250)(Pokemon(100, 500, Caract(100, 20, 4), Especie(Agua, None))) shouldEqual
           Some(Pokemon(100 + 200 * 250, 250, Caract(100, 20, 8), Especie(Agua, None)))
+      }
+    }
+
+    "si esta KO no puede realizar ninguna actividad" in {
+      val ko = Pokemon(100, 50, Caract(100, 20, 4), Charizard, KO)
+      forAll(List(descansar, nadar(10), pesas(10))) {
+        _ (ko) should be(None)
       }
     }
   }
