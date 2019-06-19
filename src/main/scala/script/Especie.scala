@@ -1,4 +1,4 @@
-package tadp
+package script
 
 case class Especie(tipo: Tipo, tipoSecundario: Option[Tipo] = None)
 

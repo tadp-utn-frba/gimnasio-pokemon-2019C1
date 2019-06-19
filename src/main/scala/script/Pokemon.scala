@@ -1,4 +1,4 @@
-package tadp
+package script
 
 case class Caract(energiaMax: Int, fuerza: Int, vel: Int)
 

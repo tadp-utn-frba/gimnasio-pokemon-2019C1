@@ -1,4 +1,4 @@
-package tadp
+package script
 
 object Gimnacio {
   type Actividad = Pokemon => Option[Pokemon]

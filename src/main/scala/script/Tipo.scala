@@ -1,4 +1,4 @@
-package tadp
+package script
 
 sealed trait Tipo
 case object Pelea extends Tipo
